@@ -1,0 +1,289 @@
+// login
+{
+    "event": "login",
+    "data": {
+        "profile": {
+            "tenant_id": "1000",
+            "user_id": "1001",
+            "workgroup_id": "1002",
+            "department_id": "1003",
+            "employee_id": "1004",
+            "employee_name": "1005"
+        },
+        "status": "busy",
+        "role": "agent"|"supervisor",
+        "sip_username": "1000",
+        "sip_realm": "sip.zw-kazoo01.wj.sankuai.info"
+        "skills": [{"skill1": 50}, {"skill2": 30}],
+        "request_id": "uuid"
+    }
+}
+"skills": 格式为{"队列id": "队列熟练程度(100分制)"}
+"status": 指定座席的初始状态（busy，available, away)
+"sip_username": 座席分机号
+"sip_realm": sip服务器域
+
+
+// 班长（only）登录后，需要执行发送他所监管座席的列表
+{
+    "event": "supervise",
+    "data": {
+        "supervisees": ["user_id1", "user_id2"],
+        "request_id": "uuid"
+    }
+}
+
+// 忙
+{
+    "event": "busy",
+    "data": {
+        "request_id": "uuid"
+    }
+}
+
+// 闲
+{
+    "event": "available",
+    "data": {
+        "request_id": "uuid"
+    }
+}
+
+// 小休
+{
+    "event": "away",
+    "data": {
+        "reason": "meeting",
+        "request_id": "uuid"
+    }
+}
+
+// logout
+{
+    "event": "logout",
+    "data": {
+        "request_id": "uuid"
+    }
+}
+
+// 外呼
+{
+    "event": "outbound",
+    "data": {
+        "callee_number": "6000",
+        "request_id": "uuid"
+    }
+}
+
+// 保持
+{
+    "event": "hold",
+    "data": {
+        "channel_id": "optional",
+        "request_id": "uuid"
+    }
+}
+"channle_id": 指座席的某一通电话的id，可选字段
+
+// 取保持
+{
+    "event": "resume",
+    "data": {
+        "channel_id": "optional",
+        "request_id": "uuid"
+    }
+}
+"channle_id": 同上
+
+// 挂断
+{
+    "event": "hangup",
+    "data": {
+        "channel_id": "optional",
+        "request_id": "uuid"
+    }
+}
+"channle_id": 同上
+
+// 转接
+{
+    "event": "transfer",
+    "data": {
+        "channel_id": "optional",
+        "target": "7000"
+        "request_id": "uuid"
+    }
+}
+"channle_id": 同上
+
+// 咨询
+{
+    "event": "consult",
+    "data": {
+        "channel_id": "optional",
+        "target": "7000"
+        "request_id": "uuid"
+    }
+}
+"channle_id": 同上
+
+// 状态事件
+{
+    "event": "status",
+    "data": {
+        "status": "busy",
+        "request_id": "uuid"
+    }
+}
+
+
+// 错误事件
+{
+    "event": "error",
+    "data": {
+        "code": 1
+        "message": "already login",
+        "request_id": "uuid"
+    }
+}
+1: 分机号重复
+2: mis号重复
+3: 队列不存在
+4: 话机未注册
+5: 重复操作
+6: 操作失败
+7: 事件错误
+
+
+// 振铃
+{
+    "event": "ringing",
+    "data": {
+        "call_id": "call_id",
+        "channel_id": "channel_id",
+        "caller_number": "主叫号码",
+        "callee_number": "被叫号码",
+        "direction": "inboud"|"outbound",
+        "request_id": "uuid"
+    }
+}
+
+// 外呼中
+{
+    "event": "delivered",
+    "data": {
+        "call_id": "call_id",
+        "channel_id": "channel_id",
+        "caller_number": "主叫号码",
+        "callee_number": "被叫号码",
+        "direction": "outbound",
+        "request_id": "uuid"
+    }
+}
+
+// 通话中
+{
+    "event": "bridged",
+    "data": {
+        "call_id": "call_id",
+        "channel_id": "channel_id",
+        "caller_number": "主叫号码",
+        "callee_number": "被叫号码",
+        "direction": "inboud"|"outbound",
+        "request_id": "uuid"
+    }
+}
+
+// 挂断
+{
+    "event": "hungup",
+    "data": {
+        "call_id": "call_id",
+        "channel_id": "channel_id",
+        "caller_number": "主叫号码",
+        "callee_number": "被叫号码",
+        "direction": "inboud"|"outbound",
+        "request_id": "uuid"
+    }
+}
+
+// 班长（only）执行强制置忙
+{
+    "event": "bulk_busy",
+    "data": {
+        "supervisees": ["user_id"],
+        "request_id": "uuid"
+    }
+}
+
+// 班长（only）强制置闲
+{
+    "event": "bulk_available",
+    "data": {
+        "supervisees": ["user_id"],
+        "request_id": "uuid"
+    }
+}
+
+// 班长（only）强制踢出
+{
+    "event": "bulk_logout",
+    "data": {
+        "supervisees": ["user_id"],
+        "request_id": "uuid"
+    }
+}
+
+// 班长（only）监听
+{
+    "event": "listen",
+    "data": {
+        "channel_id": "channel_id",
+        "request_id": "uuid"
+    }
+}
+
+// 班长（only）辅导
+{
+    "event": "whisper",
+    "data": {
+        "channel_id": "channel_id",
+        "request_id": "uuid"
+    }
+}
+
+// 班长（only）强插
+{
+    "event": "full",
+    "data": {
+        "channel_id": "channel_id",
+        "request_id": "uuid"
+    }
+}
+
+// 班长（only）强拆
+{
+    "event": "break",
+    "data": {
+        "channel_id": "channel_id",
+        "request_id": "uuid"
+    }
+}
+
+// 班长（only）收到被管理座席事件
+{
+    "event": "supervisee_event",
+    "data": {
+        "user_id": "user_id",
+        "body": {"status": "idle"},
+        "request_id": "uuid"
+    }
+}
+
+// ping
+{
+    "event": "ping",
+    "data": {
+        "request_id": "uuid"
+    }
+}
